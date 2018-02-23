@@ -241,7 +241,7 @@ if ($action == 'chat_load_conversation') {
     $output = '';
     $savehistory = get_config('local_chat', 'savehistory');
     $historyperiod = ((int) $savehistory > 0) ? (int) $savehistory * 86400 : 7 * 86400;
-    $DB->delete_records_select('local_chat', "useridto = $USER->id AND useridfrom = $id AND timeread > 0 AND timecreated < " . (time() - $historyperiod));
+    //$DB->delete_records_select('local_chat', "useridto = $USER->id AND useridfrom = $id AND timeread > 0 AND timecreated < " . (time() - $historyperiod));
     $sql = "SELECT * FROM {local_chat}
 			 WHERE (useridfrom = $USER->id AND useridto = $id AND visiblefrom = 1)
 				OR (useridto = $USER->id AND useridfrom = $id AND visibleto = 1)
