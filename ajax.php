@@ -28,6 +28,7 @@ if ($action == 'chat_load_data') {
     $oncourse = get_config('local_chat', 'oncourse');
     $inactivity = get_config('local_chat', 'inactivity');
     $showroles = get_config('local_chat', 'showroles');
+    $role = 'support';
     $newmessages_count = 0;
     $online_users_list = array();
     $messages = array();
@@ -36,6 +37,25 @@ if ($action == 'chat_load_data') {
     $resent_users_list = array();
     $messages_list = array();
     $new_messages_list = array();
+    //verificamos si el usuario tiene el rol de soporte para darle todos los permisos de acceso
+    $is_support_role = false;
+    $arrayRoles = get_user_roles($context_system, $USER->id);
+    if(is_array($arrayRoles) && count($arrayRoles)>0){
+        foreach ($arrayRoles as $indexR=>$objRole){
+            if($role == $objRole->shortname){
+                $is_support_role = true;
+                break;
+            }
+        }
+    }
+    $allow_roles = '';
+    if(strlen(trim($role))>0 && !$is_support_role){
+        $allow_roles = " AND r.shortname='".$role."' ";
+    }
+    $join_support = ' right ';
+    if($is_support_role){
+        $join_support = ' left ';
+    }
     //------------ New messages -------------- //
     $new_messages = $DB->get_records_sql("SELECT * FROM {local_chat} 
 			 WHERE useridto = $USER->id AND visibleto = 1 AND timeread = 0
@@ -89,7 +109,7 @@ if ($action == 'chat_load_data') {
                       FROM {user_lastaccess} ul 
 							LEFT JOIN {user} u ON u.id = ul.userid
 							$groupmembers 
-							LEFT JOIN (SELECT DISTINCT r.shortname, ra.userid FROM {role_assignments} ra LEFT JOIN {role} r ON r.id = ra.roleid) r ON r.userid = u.id
+							$join_support JOIN (SELECT DISTINCT r.shortname, ra.userid FROM {role_assignments} ra INNER JOIN {role} r ON r.id = ra.roleid $allow_roles) r ON r.userid = u.id
 						JOIN ($esqljoin) euj ON euj.id = u.id
                      WHERE ul.timeaccess > :timefrom
                            AND ul.courseid = :courseid
@@ -104,11 +124,11 @@ if ($action == 'chat_load_data') {
         $sql = "SELECT $userfields, MAX(u.lastaccess) AS lastaccess, GROUP_CONCAT( r.shortname ORDER BY r.shortname ASC SEPARATOR ';') AS roles
 			  FROM {user} u 
 					$groupmembers
-					LEFT JOIN (SELECT DISTINCT r.shortname, ra.userid FROM {role_assignments} ra LEFT JOIN {role} r ON r.id = ra.roleid) r ON r.userid = u.id
+					$join_support JOIN (SELECT DISTINCT r.shortname, ra.userid FROM {role_assignments} ra INNER JOIN {role} r ON r.id = ra.roleid $allow_roles) r ON r.userid = u.id
 			 WHERE 
-                         -- u.lastaccess > :timefrom
-				   -- AND u.lastaccess <= :now
-				   -- AND 
+                          u.lastaccess > :timefrom
+				    AND u.lastaccess <= :now
+				    AND 
                                    u.deleted = 0
 				   AND u.id != $USER->id
 				   $groupselect
@@ -154,7 +174,7 @@ if ($action == 'chat_load_data') {
     $sql = "SELECT DISTINCT u.*, GROUP_CONCAT( r.shortname ORDER BY r.shortname ASC SEPARATOR ';') AS roles
 			  FROM {local_chat} m
 				LEFT JOIN {user} u ON u.id = m.useridfrom OR u.id = m.useridto
-				LEFT JOIN (SELECT DISTINCT r.shortname, ra.userid FROM {role_assignments} ra LEFT JOIN {role} r ON r.id = ra.roleid) r ON r.userid = u.id
+				$join_support JOIN (SELECT DISTINCT r.shortname, ra.userid FROM {role_assignments} ra INNER JOIN {role} r ON r.id = ra.roleid $allow_roles) r ON r.userid = u.id
 			 WHERE (m.useridto = $USER->id AND m.visibleto = 1)
 				   AND u.id != $USER->id
 			GROUP BY u.id

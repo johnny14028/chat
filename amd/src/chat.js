@@ -4,10 +4,10 @@ var chatTimer = 3000;
 var tempTimer = 0;
 var chatCourseid = 1;
 
-define(['jquery'], function ($) {
+define(['jquery'], function ($) {    
     return {
         init: function (options) {
-            inicio();
+            //inicio();
             chatAjaxUrl = options.chatAjaxUrl || chatAjaxUrl;
             chatTimer = options.chatTimer || chatTimer;
             chatCourseid = options.chatCourseid || chatCourseid;
@@ -21,12 +21,6 @@ function chatInit(options) {
     chatCourseid = options.chatCourseid || chatCourseid;
 
     chatID = setInterval(chat_build, chatTimer);
-}
-
-function inicio() {
-    define(['jquery'], function ($) {
-            alert('johnny');
-    });
 }
 
 function chat_open() {
@@ -60,7 +54,7 @@ function chat_build() {
         }
         jQuery.ajax({
             url: chatAjaxUrl + "?action=chat_load_data" + params,
-            type: "GET",
+            type: "POST",
             dataType: "json",
             beforeSend: function () {}
         }).done(function (data) {
@@ -90,7 +84,7 @@ function chat_build() {
             /*--------------Online users count-------------*/
             if (data.online_users_list == '0') {
                 if (!jQuery(".chat-contacts-online .alert").length) {
-                    jQuery(".chat-contacts-online").html('<div class="alert">No online users</div>');
+                    jQuery(".chat-contacts-online").html('<div class="alert">No hay usuarios</div>');
                 }
                 if (tempTimer != 12000) {
                     tempTimer = 12000;
@@ -199,7 +193,7 @@ function chat_open_conversation(id, name) {
         chat_restart(chatTimer);
         jQuery.ajax({
             url: chatAjaxUrl + "?action=chat_load_conversation&id=" + id,
-            type: "GET",
+            type: "POST",
             dataType: "json",
             beforeSend: function () {
                 jQuery(".chat-conversation").html("<i class=\"fa fa-spin fa-spinner\"></i>");

@@ -19,25 +19,15 @@
 
 function chatInit(){
     global $CFG, $PAGE, $SITE, $DB, $USER, $COURSE;
-        error_log('fuera');
 	$chat = optional_param('chat', 0, PARAM_INT);
 	$enabled = get_config('local_chat', 'enabled');
 	if ($enabled and isloggedin() and !isguestuser()){
-            error_log('dentro');
 		chatPrintChat(true);
-		
 		$params = new stdClass();
 		$params->chatAjaxUrl = "$CFG->wwwroot/local/chat/ajax.php";
 		$params->chatTimer = 3000;	
 		$params->chatCourseid = $COURSE->id;	
-
-//		$PAGE->requires->jquery();
-//		$PAGE->requires->js('/local/chat/module.js', false);
-//		$PAGE->requires->js_function_call('chatInit', array($params), true);
                 $PAGE->requires->js_call_amd('local_chat/chat', 'init', array($params));
-//		$PAGE->requires->jquery();
-//		$PAGE->requires->js('/local/chat/module.js', false);                
-//                $PAGE->requires->js_init_call('chatInit', array($params), true);
 	}
 }
 
@@ -91,5 +81,4 @@ function chatPrintChat($display = false){
 		return $output;
 	}
 }
-error_log('tttt');
 chatInit();
