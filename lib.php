@@ -16,6 +16,7 @@
 // @created by		SEBALE LLC
 // @website		www.sebale.net
 
+
 function chatInit(){
     global $CFG, $PAGE, $SITE, $DB, $USER, $COURSE;
         error_log('fuera');

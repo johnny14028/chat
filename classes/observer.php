@@ -33,10 +33,10 @@ defined('MOODLE_INTERNAL') || die();
  */
 class local_chat_observer {
 
-public static function course_viewed(\core\event\course_viewed $event) {
+    public static function course_viewed(\core\event\course_viewed $event) {
         global $DB, $COURSE;
         //validar restricciones para usuarios que no sean administradores
-        error_log('event: '.$event->courseid);
+        error_log('event: ' . $event->courseid);
     }
-
+    
 }

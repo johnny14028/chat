@@ -17,9 +17,7 @@
 // @website		www.sebale.net
 
 $observers = [
-        ['eventname' => '\core\event\course_viewed',
-        'callback' => 'local_chat_observer::course_viewed',]
+//        ['eventname' => '\core\event\course_viewed',
+//        'callback' => 'local_chat_observer::course_viewed',]
 
         ];
-
-?>
