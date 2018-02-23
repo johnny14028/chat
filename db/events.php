@@ -16,6 +16,10 @@
 // @created by		SEBALE LLC
 // @website		www.sebale.net
 
-$handlers = array();
+$observers = [
+        ['eventname' => '\core\event\course_viewed',
+        'callback' => 'local_chat_observer::course_viewed',]
+
+        ];
 
 ?>
