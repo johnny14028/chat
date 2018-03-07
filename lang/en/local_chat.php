@@ -17,19 +17,19 @@
 // @website		www.sebale.net
 
 $string['pluginname'] = 'Chat Plugin';
-$string['chat_title'] = 'Chat';
-$string['settings'] = 'Settings';
-$string['enabled'] = 'Enabled Chat';
-$string['enabled_desc'] = 'Enable';
+$string['chat_title'] = 'Soporte';
+$string['settings'] = 'Opciones';
+$string['enabled'] = 'Habilitar chat';
+$string['enabled_desc'] = 'Habilitar';
 $string['oncourse'] = 'Display only enrolled users on Course pages';
-$string['oncourse_desc'] = 'Enable';
-$string['inactivity'] = 'Inactivity';
-$string['inactivity_desc'] = 'User online inactivity time (min)';
-$string['showroles'] = 'Show roles';
-$string['showroles_desc'] = 'Show roles on users list';
-$string['savehistory'] = 'History period';
-$string['savehistory_desc'] = 'Save user history during (days)';
-$string['chatlist'] = 'Chat List';
-$string['online_contacts'] = 'Online contacts';
-$string['recently_contacted'] = 'Recently contacted';
-$string['say_something'] = 'Say something';
+$string['oncourse_desc'] = 'Habilitar';
+$string['inactivity'] = 'Inactividad';
+$string['inactivity_desc'] = 'Tiempo de usuarios en línea inactivo (min)';
+$string['showroles'] = 'Mostrar roles';
+$string['showroles_desc'] = 'Mostrar roles o lista de usuarios';
+$string['savehistory'] = 'Periodo histórico';
+$string['savehistory_desc'] = 'Guaradar historial de usuarios durante (días)';
+$string['chatlist'] = 'Lista de chats';
+$string['online_contacts'] = 'Soporte en línea';
+$string['recently_contacted'] = 'Recientemente contactado';
+$string['say_something'] = 'Escribe aquí';
